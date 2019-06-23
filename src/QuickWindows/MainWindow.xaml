@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:QuickWindows"
         mc:Ignorable="d"
         Title="Quick Windows" Height="800" Width="800" WindowStartupLocation="CenterScreen"
-        Topmost="{Binding Path=ReadyToSearch}" WindowStyle="None">
+        Topmost="{Binding Path=ReadyToSearch}" WindowStyle="None"
+        Style="{StaticResource SearchWindow}">
     <Window.DataContext>
         <local:MainViewModel />
     </Window.DataContext>
@@ -20,14 +21,32 @@
                 </Style.Triggers>
             </Style>
         </Grid.Style>
-        <TextBox Style="{StaticResource placeHolder}" Tag="Type the action you want to search for" Name="SearchTerms" Height="23" Margin="10,10,10,0" Text="{Binding Path=SearchTerms, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" PreviewKeyDown="SearchTerms_PreviewKeyDown"/>
-        <ListView Margin="10,38,10,10.04" ItemsSource="{Binding Path=FilteredProcesses}" SelectedValue="{Binding Path=SelectedProcess}">
+        <TextBox Style="{StaticResource SearchTextBox}" Tag="Type the action you want to search for" Name="SearchTerms" 
+                 Height="23" Margin="13,13,13,0" 
+                 Text="{Binding Path=SearchTerms, UpdateSourceTrigger=PropertyChanged}" 
+                 VerticalAlignment="Top" PreviewKeyDown="SearchTerms_PreviewKeyDown">
+        </TextBox>
+        <ListView Margin="13,41,13,13.04" ItemsSource="{Binding Path=FilteredProcesses}" SelectedValue="{Binding Path=SelectedProcess}"
+                  Background="{StaticResource BackgroundColor}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+
+            <ListView.Resources>
+                <Style TargetType="ListViewItem">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter Property="Background" Value="{StaticResource SelectedHighlightColor}" />
+                            <Setter Property="BorderThickness" Value="0" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Resources>
+            
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="{Binding Path=ProcessImage}" />
-                        <TextBlock Text="{Binding Path=ProcessName}" />
-                        <TextBlock Padding="8,0,0,0" Text="{Binding Path=MainWindowTitle}" />
+                        <TextBlock Padding="8,16,0,0" Text="{Binding Path=ProcessName}" Foreground="{StaticResource InputForegroundColor}" />
+                        <TextBlock Padding="8,16,0,0" Text="{Binding Path=MainWindowTitle}" Foreground="{StaticResource InputForegroundColor}" />
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
