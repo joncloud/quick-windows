@@ -50,9 +50,23 @@ namespace QuickWindows
                 case Key.Tab:
                     e.Handled = true;
                     break;
+                case Key.I:
+                    if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+                    {
+                        e.Handled = true;
+                        ViewModel.SelectPrevious();
+                    }
+                    break;
                 case Key.Up:
                     e.Handled = true;
                     ViewModel.SelectPrevious();
+                    break;
+                case Key.K:
+                    if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+                    {
+                        e.Handled = true;
+                        ViewModel.SelectNext();
+                    }
                     break;
                 case Key.Down:
                     e.Handled = true;
