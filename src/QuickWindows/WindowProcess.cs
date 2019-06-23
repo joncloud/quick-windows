@@ -13,7 +13,7 @@ namespace QuickWindows
         WindowProcess(Process process)
         {
             _process = process ?? throw new ArgumentNullException(nameof(process));
-            ProcessImage = Icon.ExtractAssociatedIcon(process.MainModule.FileName).ToImageSource();
+            ProcessImage = Icon.ExtractAssociatedIcon(process.GetExecutablePath()).ToImageSource();
         }
 
         public string ProcessName => _process.ProcessName;
