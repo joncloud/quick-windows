@@ -15,3 +15,5 @@ Released under the MIT License.  See the [LICENSE][] file for further details.
 Use `CTRL+WIN+L` to activate the app.
 Type to search
 Select the process
+
+![Screenshot](screenshot.png?raw=true "Screenshot")
