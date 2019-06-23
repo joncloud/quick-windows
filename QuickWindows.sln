@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7B79F3B2-BC09-42E3-9E8E-E420F42B62C9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuickWindows", "src\QuickWindows\QuickWindows.csproj", "{9DC8086B-CCCD-4F22-9263-48D1FD03B693}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DC8086B-CCCD-4F22-9263-48D1FD03B693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DC8086B-CCCD-4F22-9263-48D1FD03B693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DC8086B-CCCD-4F22-9263-48D1FD03B693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DC8086B-CCCD-4F22-9263-48D1FD03B693}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9DC8086B-CCCD-4F22-9263-48D1FD03B693} = {7B79F3B2-BC09-42E3-9E8E-E420F42B62C9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7CF742A8-04E8-4C05-B2D3-30B8C74B416C}
+	EndGlobalSection
+EndGlobal
