@@ -20,7 +20,7 @@
                 </Style.Triggers>
             </Style>
         </Grid.Style>
-        <TextBox Name="SearchTerms" Height="23" Margin="10,10,10,0" Text="{Binding Path=SearchTerms, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" PreviewKeyDown="SearchTerms_PreviewKeyDown"/>
+        <TextBox Style="{StaticResource placeHolder}" Tag="Type the action you want to search for" Name="SearchTerms" Height="23" Margin="10,10,10,0" Text="{Binding Path=SearchTerms, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" PreviewKeyDown="SearchTerms_PreviewKeyDown"/>
         <ListView Margin="10,38,10,47.04" ItemsSource="{Binding Path=FilteredProcesses}" SelectedValue="{Binding Path=SelectedProcess}">
             <ListView.ItemTemplate>
                 <DataTemplate>
