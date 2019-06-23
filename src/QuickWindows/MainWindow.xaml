@@ -21,7 +21,7 @@
             </Style>
         </Grid.Style>
         <TextBox Style="{StaticResource placeHolder}" Tag="Type the action you want to search for" Name="SearchTerms" Height="23" Margin="10,10,10,0" Text="{Binding Path=SearchTerms, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" PreviewKeyDown="SearchTerms_PreviewKeyDown"/>
-        <ListView Margin="10,38,10,47.04" ItemsSource="{Binding Path=FilteredProcesses}" SelectedValue="{Binding Path=SelectedProcess}">
+        <ListView Margin="10,38,10,10.04" ItemsSource="{Binding Path=FilteredProcesses}" SelectedValue="{Binding Path=SelectedProcess}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -32,7 +32,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button IsDefault="True" Command="{Binding Path=FocusSelectedProcessCommand}" Content="Focus" Margin="10,0,10,10.04" Height="23" VerticalAlignment="Bottom" />
-
     </Grid>
 </Window>

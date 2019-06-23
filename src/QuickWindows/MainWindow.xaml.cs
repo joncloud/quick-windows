@@ -40,7 +40,15 @@ namespace QuickWindows
             switch (e.Key)
             {
                 case Key.Escape:
+                    e.Handled = true;
                     ViewModel.ReadyToSearch = false;
+                    break;
+                case Key.Enter:
+                    e.Handled = true;
+                    ViewModel.FocusSelectedProcess();
+                    break;
+                case Key.Tab:
+                    e.Handled = true;
                     break;
                 case Key.Up:
                     e.Handled = true;
