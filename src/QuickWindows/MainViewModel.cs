@@ -198,6 +198,7 @@ namespace QuickWindows
                     else
                     {
                         App.Current.MainWindow.WindowState = WindowState.Minimized;
+                        SearchTerms = "";
                     }
                 }
             }
