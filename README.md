@@ -12,7 +12,7 @@ Released under the MIT License.  See the [LICENSE][] file for further details.
 2. Compile (requires [netcoreapp 3.0](https://dotnet.microsoft.com/download/dotnet-core/3.0))
 3. Run QuickWindows.exe
 
-Use `CTRL+WIN+L` to activate the app.
+Use `CTRL+SHIFT+C` to activate the app.
 Type to search
 Select the process
 
