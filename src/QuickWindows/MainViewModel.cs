@@ -52,6 +52,8 @@ namespace QuickWindows
                 // e.g., run Visual Studio and open XXX solution.
                 if (_searchTerms != value)
                 {
+                    var moreSpecific = _searchTerms.Length < value.Length;
+
                     _searchTerms = value;
                     OnPropertyChanged(new PropertyChangedEventArgs(nameof(SearchTerms)));
 
@@ -67,15 +69,14 @@ namespace QuickWindows
                             SelectedProcess = FilteredProcesses[0];
                         }
                     }
-                    else
+                    else if (moreSpecific)
                     {
                         var i = FilteredProcesses.Count;
                         var removed = false;
                         while (--i >= 0)
                         {
                             var process = FilteredProcesses[i];
-                            if (!process.ProcessName.Contains(_searchTerms, StringComparison.OrdinalIgnoreCase) &&
-                                !process.MainWindowTitle.Contains(_searchTerms, StringComparison.OrdinalIgnoreCase))
+                            if (!ProcessMatchesSearchTerms(process))
                             {
                                 FilteredProcesses.RemoveAt(i);
                                 removed = true;
@@ -94,9 +95,24 @@ namespace QuickWindows
                             }
                         }
                     }
+                    else
+                    {
+                        FilteredProcesses.Clear();
+                        foreach (var process in AllProcesses)
+                        {
+                            if (ProcessMatchesSearchTerms(process))
+                            {
+                                FilteredProcesses.Add(process);
+                            }
+                        }
+                    }
                 }
             }
         }
+
+        bool ProcessMatchesSearchTerms(WindowProcess process) =>
+            process.ProcessName.Contains(_searchTerms, StringComparison.OrdinalIgnoreCase) ||
+            process.MainWindowTitle.Contains(_searchTerms, StringComparison.OrdinalIgnoreCase);
 
         public void SelectPrevious()
         {
