@@ -191,7 +191,7 @@ namespace QuickWindows
         {
             _hook = new KeyboardHook();
             _hook.KeyPressed += KeyboardHookKeyPressed;
-            _hook.RegisterHotKey(ModifierKeys.Control | ModifierKeys.Windows, Keys.L);
+            _hook.RegisterHotKey(ModifierKeys.Control | ModifierKeys.Shift, Keys.C);
         }
 
         bool _readyToSearch;
