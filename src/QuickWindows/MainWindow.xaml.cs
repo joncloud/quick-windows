@@ -35,7 +35,7 @@ namespace QuickWindows
             ViewModel.ReadyToSearch = false;
         }
 
-        private void SearchTerms_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void HandlePreviewKeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
             {
@@ -73,6 +73,12 @@ namespace QuickWindows
                     ViewModel.SelectNext();
                     break;
             }
+        }
+
+        void HandleMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+            ViewModel.FocusSelectedProcess();
         }
     }
 }

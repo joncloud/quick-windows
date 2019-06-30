@@ -24,11 +24,13 @@
         <TextBox Style="{StaticResource SearchTextBox}" Tag="Type the action you want to search for" Name="SearchTerms" 
                  Height="23" Margin="13,13,13,0" 
                  Text="{Binding Path=SearchTerms, UpdateSourceTrigger=PropertyChanged}" 
-                 VerticalAlignment="Top" PreviewKeyDown="SearchTerms_PreviewKeyDown">
+                 VerticalAlignment="Top" PreviewKeyDown="HandlePreviewKeyDown">
         </TextBox>
         <ListView Margin="13,41,13,13.04" ItemsSource="{Binding Path=FilteredProcesses}" SelectedValue="{Binding Path=SelectedProcess}"
                   Background="{StaticResource BackgroundColor}"
-                  ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                  ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                  PreviewKeyDown="HandlePreviewKeyDown"
+                  MouseDoubleClick="HandleMouseDoubleClick">
 
             <ListView.Resources>
                 <Style TargetType="ListViewItem">
