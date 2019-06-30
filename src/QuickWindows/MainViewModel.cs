@@ -2,31 +2,16 @@
 using System.Linq;
 using System.Windows;
 using System.Diagnostics;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace QuickWindows
 {
-    public class ActionCommand : ICommand
-    {
-        readonly Action _action;
-        public ActionCommand(Action action)
-        {
-            _action = action ?? throw new ArgumentNullException(nameof(action));
-        }
-        public event EventHandler CanExecuteChanged;
-
-        public bool CanExecute(object parameter) => true;
-
-        public void Execute(object parameter) => _action();
-    }
-
     public class MainViewModel : IDisposable, INotifyPropertyChanged
     {
-        public ObservableCollection<WindowProcess> AllProcesses { get; }
-        public ObservableCollection<WindowProcess> FilteredProcesses { get; }
+        public BulkObservableCollection<WindowProcess> AllProcesses { get; }
+        public BulkObservableCollection<WindowProcess> FilteredProcesses { get; }
 
         WindowProcess _selectedProcess;
         public WindowProcess SelectedProcess
@@ -56,6 +41,8 @@ namespace QuickWindows
 
                     _searchTerms = value;
                     OnPropertyChanged(new PropertyChangedEventArgs(nameof(SearchTerms)));
+
+                    using var _ = FilteredProcesses.EnableBulkOperations();
 
                     if (string.IsNullOrWhiteSpace(_searchTerms))
                     {
@@ -134,13 +121,13 @@ namespace QuickWindows
         {
             // TODO design time is blowing up
             var currentProcess = Process.GetCurrentProcess();
-            AllProcesses = new ObservableCollection<WindowProcess>(
+            AllProcesses = new BulkObservableCollection<WindowProcess>(
                 WindowProcess.FromProcesses()
                     .Where(process => process.ProcessId != currentProcess.Id)
                     .OrderBy(process => process.ProcessName)
                     .ThenBy(process => process.MainWindowTitle)
             );
-            FilteredProcesses = new ObservableCollection<WindowProcess>(AllProcesses);
+            FilteredProcesses = new BulkObservableCollection<WindowProcess>(AllProcesses);
             if (FilteredProcesses.Any())
             {
                 SelectedProcess = FilteredProcesses[0];
@@ -172,6 +159,8 @@ namespace QuickWindows
 
         public void Refresh()
         {
+            using var _x = AllProcesses.EnableBulkOperations();
+            using var _y = FilteredProcesses.EnableBulkOperations();
             AllProcesses.Clear();
             FilteredProcesses.Clear();
             var currentProcess = Process.GetCurrentProcess();
