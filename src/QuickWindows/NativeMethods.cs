@@ -25,7 +25,7 @@ namespace QuickWindows
         public static extern bool DeleteObject(IntPtr hObject);
 
         [DllImport("kernel32.dll")]
-        public static extern bool QueryFullProcessImageName(IntPtr hprocess, int dwFlags,
+        public static extern bool QueryFullProcessImageNameA(IntPtr hprocess, int dwFlags,
                StringBuilder lpExeName, out int size);
         [DllImport("kernel32.dll")]
         public static extern IntPtr OpenProcess(ProcessAccessFlags dwDesiredAccess,
