@@ -5,12 +5,13 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Windows.Input;
+using System.Collections.Generic;
 
 namespace QuickWindows
 {
     public class MainViewModel : IDisposable, INotifyPropertyChanged
     {
-        public BulkObservableCollection<WindowProcess> AllProcesses { get; }
+        readonly List<WindowProcess> _allProcesses;
         public BulkObservableCollection<WindowProcess> FilteredProcesses { get; }
 
         WindowProcess _selectedProcess;
@@ -47,7 +48,7 @@ namespace QuickWindows
                     if (string.IsNullOrWhiteSpace(_searchTerms))
                     {
                         FilteredProcesses.Clear();
-                        foreach (var process in AllProcesses)
+                        foreach (var process in _allProcesses)
                         {
                             FilteredProcesses.Add(process);
                         }
@@ -85,7 +86,7 @@ namespace QuickWindows
                     else
                     {
                         FilteredProcesses.Clear();
-                        foreach (var process in AllProcesses)
+                        foreach (var process in _allProcesses)
                         {
                             if (ProcessMatchesSearchTerms(process))
                             {
@@ -121,13 +122,13 @@ namespace QuickWindows
         {
             // TODO design time is blowing up
             var currentProcess = Process.GetCurrentProcess();
-            AllProcesses = new BulkObservableCollection<WindowProcess>(
+            _allProcesses = new List<WindowProcess>(
                 WindowProcess.FromProcesses()
                     .Where(process => process.ProcessId != currentProcess.Id)
                     .OrderBy(process => process.ProcessName)
                     .ThenBy(process => process.MainWindowTitle)
             );
-            FilteredProcesses = new BulkObservableCollection<WindowProcess>(AllProcesses);
+            FilteredProcesses = new BulkObservableCollection<WindowProcess>(_allProcesses);
             if (FilteredProcesses.Any())
             {
                 SelectedProcess = FilteredProcesses[0];
@@ -159,9 +160,8 @@ namespace QuickWindows
 
         public void Refresh()
         {
-            using var _x = AllProcesses.EnableBulkOperations();
             using var _y = FilteredProcesses.EnableBulkOperations();
-            AllProcesses.Clear();
+            _allProcesses.Clear();
             FilteredProcesses.Clear();
             var currentProcess = Process.GetCurrentProcess();
             var processes = WindowProcess.FromProcesses()
@@ -170,7 +170,7 @@ namespace QuickWindows
                 .ThenBy(process => process.MainWindowTitle);
             foreach (var process in processes)
             {
-                AllProcesses.Add(process);
+                _allProcesses.Add(process);
                 FilteredProcesses.Add(process);
             }
             if (FilteredProcesses.Any())
