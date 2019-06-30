@@ -14,8 +14,11 @@ namespace QuickWindows
         {
             private static int WM_HOTKEY = 0x0312;
 
-            public Window()
+            readonly Action<KeyPressedEventArgs> _callback;
+            public Window(Action<KeyPressedEventArgs> callback)
             {
+                _callback = callback;
+
                 // create the handle for the window.
                 CreateHandle(new CreateParams());
             }
@@ -36,11 +39,9 @@ namespace QuickWindows
                     ModifierKeys modifier = (ModifierKeys)((int)m.LParam & 0xFFFF);
 
                     // invoke the event to notify the parent.
-                    KeyPressed?.Invoke(this, new KeyPressedEventArgs(modifier, key));
+                    _callback(new KeyPressedEventArgs(modifier, key));
                 }
             }
-
-            public event EventHandler<KeyPressedEventArgs> KeyPressed;
 
             #region IDisposable Members
 
@@ -52,16 +53,13 @@ namespace QuickWindows
             #endregion
         }
 
-        private Window _window = new Window();
+        private Window _window;
         private int _currentId;
 
         public KeyboardHook()
         {
             // register the event of the inner native window.
-            _window.KeyPressed += delegate (object sender, KeyPressedEventArgs args)
-            {
-                KeyPressed?.Invoke(this, args);
-            };
+            _window = new Window(OnKeyPressed);
         }
 
         /// <summary>
@@ -83,6 +81,11 @@ namespace QuickWindows
         /// A hot key has been pressed.
         /// </summary>
         public event EventHandler<KeyPressedEventArgs> KeyPressed;
+
+        void OnKeyPressed(KeyPressedEventArgs args)
+        {
+            KeyPressed?.Invoke(this, args);
+        }
 
         #region IDisposable Members
 
