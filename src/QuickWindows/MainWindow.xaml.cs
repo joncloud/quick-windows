@@ -37,41 +37,18 @@ namespace QuickWindows
 
         private void HandlePreviewKeyDown(object sender, KeyEventArgs e)
         {
-            switch (e.Key)
+            var keyStroke = new KeyStroke(
+                Keyboard.Modifiers,
+                e.Key
+            );
+
+            if (ViewModel.TryRequestShortcut(keyStroke))
             {
-                case Key.Escape:
-                    e.Handled = true;
-                    ViewModel.ReadyToSearch = false;
-                    break;
-                case Key.Enter:
-                    e.Handled = true;
-                    ViewModel.FocusSelectedProcess();
-                    break;
-                case Key.Tab:
-                    e.Handled = true;
-                    break;
-                case Key.I:
-                    if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-                    {
-                        e.Handled = true;
-                        ViewModel.SelectPrevious();
-                    }
-                    break;
-                case Key.Up:
-                    e.Handled = true;
-                    ViewModel.SelectPrevious();
-                    break;
-                case Key.K:
-                    if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-                    {
-                        e.Handled = true;
-                        ViewModel.SelectNext();
-                    }
-                    break;
-                case Key.Down:
-                    e.Handled = true;
-                    ViewModel.SelectNext();
-                    break;
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Tab)
+            {
+                e.Handled = true;
             }
         }
 

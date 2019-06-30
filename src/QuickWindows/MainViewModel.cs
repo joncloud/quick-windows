@@ -11,6 +11,7 @@ namespace QuickWindows
 {
     public class MainViewModel : IDisposable, INotifyPropertyChanged
     {
+        readonly KeyboardShortcuts _keyboardShortcuts;
         readonly List<WindowProcess> _allProcesses;
         public BulkObservableCollection<WindowProcess> FilteredProcesses { get; }
 
@@ -120,6 +121,34 @@ namespace QuickWindows
 
         public MainViewModel()
         {
+            // TODO make this configurable by user.
+            _keyboardShortcuts = new KeyboardShortcuts();
+            _keyboardShortcuts.AppActionRequested += AppActionRequested;
+
+            // TODO need to have some kind of binding between this and hotkey registration.
+            _keyboardShortcuts.TryAdd(
+                new KeyStroke(ModifierKeys.Control | ModifierKeys.Shift, Key.C), 
+                AppAction.ActivateApp
+            );
+            _keyboardShortcuts.TryAdd(
+                new KeyStroke(Key.Escape), AppAction.DeactivateApp
+            );
+            _keyboardShortcuts.TryAdd(
+                new KeyStroke(Key.Enter), AppAction.FocusProcess
+            );
+            _keyboardShortcuts.TryAdd(
+                new KeyStroke(Key.Up), AppAction.PreviousProcess
+            );
+            _keyboardShortcuts.TryAdd(
+                new KeyStroke(ModifierKeys.Control, Key.I), AppAction.PreviousProcess
+            );
+            _keyboardShortcuts.TryAdd(
+                new KeyStroke(Key.Down), AppAction.NextProcess
+            );
+            _keyboardShortcuts.TryAdd(
+                new KeyStroke(ModifierKeys.Control, Key.K), AppAction.NextProcess
+            );
+
             // TODO design time is blowing up
             var currentProcess = Process.GetCurrentProcess();
             _allProcesses = new List<WindowProcess>(
@@ -137,7 +166,7 @@ namespace QuickWindows
             RefreshCommand = new ActionCommand(Refresh);
             ReadyToSearch = true;
         }
-        
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs ea)
@@ -215,8 +244,36 @@ namespace QuickWindows
 
         void KeyboardHookKeyPressed(object sender, KeyPressedEventArgs e)
         {
-            Refresh();
-            ReadyToSearch = true;
+            if (KeyStroke.TryConvert(e, out var keyStroke))
+            {
+                _keyboardShortcuts.TryRequest(keyStroke);
+            }
+        }
+
+        public bool TryRequestShortcut(KeyStroke keyStroke) =>
+            _keyboardShortcuts.TryRequest(keyStroke);
+
+        void AppActionRequested(object sender, AppActionRequestedEventArgs e)
+        {
+            switch (e.AppAction)
+            {
+                case AppAction.ActivateApp:
+                    Refresh();
+                    ReadyToSearch = true;
+                    break;
+                case AppAction.DeactivateApp:
+                    ReadyToSearch = false;
+                    break;
+                case AppAction.FocusProcess:
+                    FocusSelectedProcess();
+                    break;
+                case AppAction.NextProcess:
+                    SelectNext();
+                    break;
+                case AppAction.PreviousProcess:
+                    SelectPrevious();
+                    break;
+            }
         }
 
         public void Dispose()
