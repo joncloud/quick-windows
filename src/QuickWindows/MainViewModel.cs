@@ -137,6 +137,8 @@ namespace QuickWindows
             AllProcesses = new ObservableCollection<WindowProcess>(
                 WindowProcess.FromProcesses()
                     .Where(process => process.ProcessId != currentProcess.Id)
+                    .OrderBy(process => process.ProcessName)
+                    .ThenBy(process => process.MainWindowTitle)
             );
             FilteredProcesses = new ObservableCollection<WindowProcess>(AllProcesses);
             if (FilteredProcesses.Any())
@@ -174,7 +176,9 @@ namespace QuickWindows
             FilteredProcesses.Clear();
             var currentProcess = Process.GetCurrentProcess();
             var processes = WindowProcess.FromProcesses()
-                .Where(process => process.ProcessId != currentProcess.Id);
+                .Where(process => process.ProcessId != currentProcess.Id)
+                .OrderBy(process => process.ProcessName)
+                .ThenBy(process => process.MainWindowTitle);
             foreach (var process in processes)
             {
                 AllProcesses.Add(process);
