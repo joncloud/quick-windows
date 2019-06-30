@@ -208,13 +208,13 @@ namespace QuickWindows
                     // TODO probably can use data trigger
                     if (_readyToSearch)
                     {
+                        App.Current.MainWindow.Visibility = Visibility.Visible;
                         App.Current.MainWindow.Activate();
-                        App.Current.MainWindow.WindowState = WindowState.Normal;
                     }
                     else
                     {
-                        App.Current.MainWindow.WindowState = WindowState.Minimized;
                         SearchTerms = "";
+                        App.Current.MainWindow.Visibility = Visibility.Hidden;
                     }
                 }
             }
