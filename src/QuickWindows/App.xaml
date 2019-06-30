@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:QuickWindows"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolVisibilityConverter" />
+        
         <SolidColorBrush x:Key="BackgroundColor">#252525</SolidColorBrush>
         <SolidColorBrush x:Key="BorderHighlightColor">#175b89</SolidColorBrush>
         <SolidColorBrush x:Key="InputBackgroundColor">#3c3c3c</SolidColorBrush>

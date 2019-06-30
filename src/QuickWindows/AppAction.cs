@@ -1,11 +1,25 @@
-﻿namespace QuickWindows
+﻿using System.ComponentModel;
+
+namespace QuickWindows
 {
-    enum AppAction
+    public enum AppAction
     {
+        None,
+
+        [Description("Activate")]
         ActivateApp,
+
+        [Description("Next")]
         NextProcess,
+
+        [Description("Previous")]
         PreviousProcess,
+
+        [Description("Focus")]
         FocusProcess,
-        DeactivateApp
+
+        [Description("Deactivate")]
+        DeactivateApp,
+        ManageShortcuts
     }
 }

@@ -148,6 +148,9 @@ namespace QuickWindows
             _keyboardShortcuts.TryAdd(
                 new KeyStroke(ModifierKeys.Control, Key.K), AppAction.NextProcess
             );
+            _keyboardShortcuts.TryAdd(
+                new KeyStroke(ModifierKeys.Control | ModifierKeys.Shift, Key.O), AppAction.ManageShortcuts
+            );
 
             // TODO design time is blowing up
             var currentProcess = Process.GetCurrentProcess();
@@ -272,6 +275,9 @@ namespace QuickWindows
                     break;
                 case AppAction.PreviousProcess:
                     SelectPrevious();
+                    break;
+                case AppAction.ManageShortcuts:
+                    new AppShortcutsWindow().Show();
                     break;
             }
         }
