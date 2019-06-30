@@ -27,6 +27,8 @@ namespace QuickWindows
                 throw new Win32Exception();
             }
 
+            icon.Dispose();
+
             return wpfBitmap;
         }
 
