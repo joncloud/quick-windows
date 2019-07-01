@@ -2,7 +2,7 @@
 
 namespace QuickWindows
 {
-    class AppActionRequestedEventArgs : EventArgs
+    public class AppActionRequestedEventArgs : EventArgs
     {
         public AppAction AppAction { get; }
         public AppActionRequestedEventArgs(AppAction appAction) =>

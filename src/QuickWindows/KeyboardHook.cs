@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Windows.Input;
 
@@ -55,11 +56,13 @@ namespace QuickWindows
 
         private Window _window;
         private int _currentId;
+        readonly Dictionary<KeyStroke, int> _keyStrokeMap;
 
         public KeyboardHook()
         {
             // register the event of the inner native window.
             _window = new Window(OnKeyPressed);
+            _keyStrokeMap = new Dictionary<KeyStroke, int>();
         }
 
         /// <summary>
@@ -67,14 +70,16 @@ namespace QuickWindows
         /// </summary>
         /// <param name="modifier">The modifiers that are associated with the hot key.</param>
         /// <param name="key">The key itself that is associated with the hot key.</param>
-        public void RegisterHotKey(ModifierKeys modifier, Keys key)
+        public void RegisterHotKey(KeyStroke keyStroke)
         {
             // increment the counter.
-            _currentId = _currentId + 1;
+            _currentId++;
 
             // register the hot key.
-            if (!NativeMethods.RegisterHotKey(_window.Handle, _currentId, (uint)modifier, (uint)key))
+            if (!NativeMethods.RegisterHotKey(_window.Handle, _currentId, (uint)keyStroke.ModifierKeys, (uint)keyStroke.GetWinFormsKey()))
                 throw new InvalidOperationException("Couldn’t register the hot key.");
+
+            _keyStrokeMap[keyStroke] = _currentId;
         }
 
         /// <summary>

@@ -9,9 +9,9 @@ using System.Collections.Generic;
 
 namespace QuickWindows
 {
-    public class MainViewModel : IDisposable, INotifyPropertyChanged
+    public class MainViewModel : INotifyPropertyChanged
     {
-        readonly KeyboardShortcuts _keyboardShortcuts;
+        readonly IAppService _appService;
         readonly List<WindowProcess> _allProcesses;
         public BulkObservableCollection<WindowProcess> FilteredProcesses { get; }
 
@@ -119,46 +119,13 @@ namespace QuickWindows
             SelectedProcess = FilteredProcesses[target];
         }
 
-        public MainViewModel()
+        public MainViewModel(IAppService appService)
         {
-            // TODO make this configurable by user.
-            _keyboardShortcuts = new KeyboardShortcuts();
-            _keyboardShortcuts.AppActionRequested += AppActionRequested;
+            _appService = appService;
+            _appService.ShortcutService.AppActionRequested += AppActionRequested;
 
-            // TODO need to have some kind of binding between this and hotkey registration.
-            _keyboardShortcuts.TryAdd(
-                new KeyStroke(ModifierKeys.Control | ModifierKeys.Shift, Key.C), 
-                AppAction.ActivateApp
-            );
-            _keyboardShortcuts.TryAdd(
-                new KeyStroke(Key.Escape), AppAction.DeactivateApp
-            );
-            _keyboardShortcuts.TryAdd(
-                new KeyStroke(Key.Enter), AppAction.FocusProcess
-            );
-            _keyboardShortcuts.TryAdd(
-                new KeyStroke(Key.Up), AppAction.PreviousProcess
-            );
-            _keyboardShortcuts.TryAdd(
-                new KeyStroke(ModifierKeys.Control, Key.I), AppAction.PreviousProcess
-            );
-            _keyboardShortcuts.TryAdd(
-                new KeyStroke(Key.Down), AppAction.NextProcess
-            );
-            _keyboardShortcuts.TryAdd(
-                new KeyStroke(ModifierKeys.Control, Key.K), AppAction.NextProcess
-            );
-            _keyboardShortcuts.TryAdd(
-                new KeyStroke(ModifierKeys.Control | ModifierKeys.Shift, Key.O), AppAction.ManageShortcuts
-            );
-
-            // TODO design time is blowing up
-            var currentProcess = Process.GetCurrentProcess();
             _allProcesses = new List<WindowProcess>(
-                WindowProcess.FromProcesses()
-                    .Where(process => process.ProcessId != currentProcess.Id)
-                    .OrderBy(process => process.ProcessName)
-                    .ThenBy(process => process.MainWindowTitle)
+                _appService.ProcessService.GetWindowProcesses()
             );
             FilteredProcesses = new BulkObservableCollection<WindowProcess>(_allProcesses);
             if (FilteredProcesses.Any())
@@ -211,14 +178,6 @@ namespace QuickWindows
             }
         }
 
-        KeyboardHook _hook;
-        public void RegisterGlobalHotKeys()
-        {
-            _hook = new KeyboardHook();
-            _hook.KeyPressed += KeyboardHookKeyPressed;
-            _hook.RegisterHotKey(ModifierKeys.Control | ModifierKeys.Shift, Keys.C);
-        }
-
         bool _readyToSearch;
         public bool ReadyToSearch
         {
@@ -245,17 +204,6 @@ namespace QuickWindows
             }
         }
 
-        void KeyboardHookKeyPressed(object sender, KeyPressedEventArgs e)
-        {
-            if (KeyStroke.TryConvert(e, out var keyStroke))
-            {
-                _keyboardShortcuts.TryRequest(keyStroke);
-            }
-        }
-
-        public bool TryRequestShortcut(KeyStroke keyStroke) =>
-            _keyboardShortcuts.TryRequest(keyStroke);
-
         void AppActionRequested(object sender, AppActionRequestedEventArgs e)
         {
             switch (e.AppAction)
@@ -280,11 +228,6 @@ namespace QuickWindows
                     new AppShortcutsWindow().Show();
                     break;
             }
-        }
-
-        public void Dispose()
-        {
-            _hook?.Dispose();
         }
     }
 }

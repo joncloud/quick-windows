@@ -8,9 +8,6 @@
         Title="Quick Windows" Height="800" Width="800" WindowStartupLocation="CenterScreen"
         Topmost="{Binding Path=ReadyToSearch}" WindowStyle="None"
         Style="{StaticResource SearchWindow}">
-    <Window.DataContext>
-        <local:MainViewModel />
-    </Window.DataContext>
     <Grid>
         <Grid.Style>
             <Style>

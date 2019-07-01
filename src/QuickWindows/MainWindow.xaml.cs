@@ -5,7 +5,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 
 namespace QuickWindows
-{
+{ 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -15,18 +15,19 @@ namespace QuickWindows
 
         public MainWindow()
         {
-            InitializeComponent();
+            _appService = new DesignerAppService();
+            DataContext = new MainViewModel(_appService);
 
-            if (!DesignerProperties.GetIsInDesignMode(this))
-            {
-                ViewModel.RegisterGlobalHotKeys();
-            }
+            InitializeComponent();
         }
 
-        protected override void OnClosed(EventArgs e)
+        readonly IAppService _appService;
+        public MainWindow(IAppService appService)
         {
-            ViewModel.Dispose();
-            base.OnClosed(e);
+            _appService = appService;
+            DataContext = new MainViewModel(appService);
+
+            InitializeComponent();
         }
 
         protected override void OnDeactivated(EventArgs e)
@@ -42,7 +43,7 @@ namespace QuickWindows
                 e.Key
             );
 
-            if (ViewModel.TryRequestShortcut(keyStroke))
+            if (_appService.ShortcutService.TryRequestShortcut(keyStroke))
             {
                 e.Handled = true;
             }
