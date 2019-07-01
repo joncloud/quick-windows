@@ -31,7 +31,6 @@ steps:
     publishWebProjects: false
     projects: src/QuickWindows/QuickWindows.csproj
     arguments: --configuration $(buildConfiguration) --runtime $(runtimeIdentifier) --self-contained true --output $(build.ArtifactStagingDirectory)
-    zipAfterPublish: true
 
 - task: VSTest@2
   inputs:
@@ -41,4 +40,5 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(build.ArtifactStagingDirectory)'
-    ArtifactName: drop
+    ArtifactName: 'QuickWindows-$(runtimeIdentifier)'
+    Parallel: true
