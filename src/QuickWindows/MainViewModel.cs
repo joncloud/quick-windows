@@ -159,14 +159,10 @@ namespace QuickWindows
 
         public void Refresh()
         {
-            using var _y = FilteredProcesses.EnableBulkOperations();
+            using var _ = FilteredProcesses.EnableBulkOperations();
             _allProcesses.Clear();
             FilteredProcesses.Clear();
-            var currentProcess = Process.GetCurrentProcess();
-            var processes = WindowProcess.FromProcesses()
-                .Where(process => process.ProcessId != currentProcess.Id)
-                .OrderBy(process => process.ProcessName)
-                .ThenBy(process => process.MainWindowTitle);
+            var processes = _appService.ProcessService.GetWindowProcesses();
             foreach (var process in processes)
             {
                 _allProcesses.Add(process);
