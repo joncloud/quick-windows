@@ -216,10 +216,25 @@ namespace QuickWindows
         }
 
         public ICommand AddCommand { get; }
-        public AppShortcutsViewModel()
+        readonly IShortcutService _shortcutService;
+        public AppShortcutsViewModel(IShortcutService shortcutService)
         {
+            _shortcutService = shortcutService;
             Builder = new AppKeyboardShortcutBuilder();
-            Shortcuts = new ObservableCollection<AppKeyboardShortcutViewModel>();
+            Shortcuts = new ObservableCollection<AppKeyboardShortcutViewModel>(
+                _shortcutService.GetShortcuts()
+                    .Select(tuple =>
+                    {
+                        var shortcut = new AppKeyboardShortcut
+                        {
+                            AppAction = tuple.Item2,
+                            KeyStroke = tuple.Item1
+                        };
+                        return new AppKeyboardShortcutViewModel(
+                            shortcut
+                        );
+                    })
+            );
             AvailableAppActions = new List<AppActionViewModel>
             {
                 new AppActionViewModel(AppAction.ActivateApp),
@@ -235,12 +250,14 @@ namespace QuickWindows
         public void Add()
         {
             var shortcut = Builder.Build();
-            if (Shortcuts.Any(x => x.Shortcut.KeyStroke.Equals(shortcut.KeyStroke)))
+            if (!_shortcutService.TryAddShortcut(shortcut.KeyStroke, shortcut.AppAction))
             {
                 return;
             }
 
             Shortcuts.Add(new AppKeyboardShortcutViewModel(shortcut));
+            SelectedAppAction = AvailableAppActions[0];
+            Builder.Reset();
         }
 
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)

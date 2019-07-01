@@ -225,7 +225,7 @@ namespace QuickWindows
                     SelectPrevious();
                     break;
                 case AppAction.ManageShortcuts:
-                    new AppShortcutsWindow().Show();
+                    new AppShortcutsWindow(_appService.ShortcutService).Show();
                     break;
             }
         }

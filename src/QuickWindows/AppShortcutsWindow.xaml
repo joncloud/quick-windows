@@ -6,10 +6,8 @@
         xmlns:local="clr-namespace:QuickWindows"
         mc:Ignorable="d"
         Title="Shortcuts" Height="450" Width="800">
-    <Window.DataContext>
-        <local:AppShortcutsViewModel />
-    </Window.DataContext>
     <Grid>
+        <!-- TODO bind focus to disable global shortcuts -->
         <TextBox Height="23" Margin="135,10,41,0" VerticalAlignment="Top"
                  Text="{Binding Path=Builder.Visualization}"
                  IsReadOnly="True"

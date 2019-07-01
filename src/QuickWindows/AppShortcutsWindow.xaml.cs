@@ -21,6 +21,13 @@ namespace QuickWindows
 
         public AppShortcutsWindow()
         {
+            DataContext = new AppShortcutsViewModel(new DesignerShortcutService());
+            InitializeComponent();
+        }
+
+        public AppShortcutsWindow(IShortcutService shortcutService)
+        {
+            DataContext = new AppShortcutsViewModel(shortcutService);
             InitializeComponent();
         }
 
