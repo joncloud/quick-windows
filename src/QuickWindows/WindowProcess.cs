@@ -46,7 +46,8 @@ namespace QuickWindows
             var mainWindows = _allWindowsFinder.MainWindows;
             foreach (var process in Process.GetProcesses())
             {
-                if (mainWindows.TryGetValue(process.Id, out var mainWindow))
+                if (mainWindows.TryGetValue(process.Id, out var mainWindow) &&
+                   !string.IsNullOrWhiteSpace(process.MainWindowTitle))
                 {
                     yield return new WindowProcess(process, mainWindow);
                 }
