@@ -20,10 +20,17 @@ namespace QuickWindows
 
             var processService = new ProcessService();
             var shortcutService = new ShortcutService();
+            var singletonService = new NamedPipesSingletonService(shortcutService);
             var appService = new AppService(
                 processService,
                 shortcutService
             );
+
+            if (!singletonService.TryActivate())
+            {
+                Shutdown();
+                return;
+            }
 
             // TODO make this load from disk.
             appService.ShortcutService.TryAddShortcut(
