@@ -26,9 +26,9 @@ steps:
 
 - task: DotNetCoreCLI@2
   inputs:
-    command: publish
+    command: custom
     projects: src/QuickWindows/QuickWindows.csproj
-    arguments: --configuration $(buildConfiguration) --runtime $(runtimeIdentifier) --self-contained true
+    arguments: --configuration $(buildConfiguration) --runtime $(runtimeIdentifier) --self-contained true --output $(build.ArtifactStagingDirectory)
     zipAfterPublish: true
 
 - task: VSTest@2
