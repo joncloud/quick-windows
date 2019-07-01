@@ -1,4 +1,6 @@
 # Quick Windows
+[![Build Status](https://dev.azure.com/joncloud/joncloud-github/_apis/build/status/joncloud.quick-windows?branchName=master)](https://dev.azure.com/joncloud/joncloud-github/_build/latest?definitionId=12&branchName=master)
+
 ## Description
 Quick process switching application for Windows
 
@@ -8,12 +10,11 @@ Released under the MIT License.  See the [LICENSE][] file for further details.
 [license]: LICENSE.md
 
 ## Usage
-1. Restore NuGet Packages
-2. Compile (requires [netcoreapp 3.0](https://dotnet.microsoft.com/download/dotnet-core/3.0))
-3. Run QuickWindows.exe
+Releases are currently available for [every commit](https://dev.azure.com/joncloud/joncloud-github/_build?definitionId=12&_a=summary).
 
-Use `CTRL+SHIFT+C` to activate the app.
-Type to search
-Select the process
+1. Open `QuickWindows.exe`
+2. Use `CTRL+SHIFT+C` to activate the app.
+3. Type to search
+4. Select the process
 
 ![Screenshot](screenshot.png?raw=true "Screenshot")
