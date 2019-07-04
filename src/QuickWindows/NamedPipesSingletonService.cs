@@ -47,7 +47,7 @@ namespace QuickWindows
                 _server = new NamedPipeServerStream("QuickWindows", PipeDirection.InOut, 1);
                 _cts = new CancellationTokenSource();
                 App.Current.Exit += Current_Exit;
-                Task.Run(() => ListenAsync(_cts.Token), _cts.Token);
+                Task.Factory.StartNew(() => ListenAsync(_cts.Token), _cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
                 return true;
             }
             catch (IOException)
