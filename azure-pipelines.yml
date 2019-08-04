@@ -33,11 +33,11 @@ steps:
     projects: src/QuickWindows/QuickWindows.csproj
     arguments: --configuration $(buildConfiguration) --runtime $(runtimeIdentifier) --self-contained true --output $(build.ArtifactStagingDirectory)
 
-- task: VSTest@2
-  displayName: Test
-  inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+# - task: VSTest@2
+#   displayName: Test
+#   inputs:
+#     platform: '$(buildPlatform)'
+#     configuration: '$(buildConfiguration)'
 
 - task: PublishBuildArtifacts@1
   displayName: Upload Artifacts
