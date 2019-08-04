@@ -10,7 +10,9 @@ namespace QuickWindows
         {
             _action = action ?? throw new ArgumentNullException(nameof(action));
         }
+#pragma warning disable 67
         public event EventHandler CanExecuteChanged;
+#pragma warning enable 67
 
         public bool CanExecute(object parameter) => true;
 

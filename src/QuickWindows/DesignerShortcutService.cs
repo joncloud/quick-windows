@@ -5,7 +5,9 @@ namespace QuickWindows
 {
     public class DesignerShortcutService : IShortcutService
     {
+#pragma warning disable 67
         public event EventHandler<AppActionRequestedEventArgs> AppActionRequested;
+#pragma warning enable 67
 
         public IEnumerable<(KeyStroke, AppAction)> GetShortcuts()
         {
