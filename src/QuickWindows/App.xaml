@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:QuickWindows">
     <Application.Resources>
         <BooleanToVisibilityConverter x:Key="BoolVisibilityConverter" />
-        
+
         <SolidColorBrush x:Key="BackgroundColor">#252525</SolidColorBrush>
         <SolidColorBrush x:Key="BorderHighlightColor">#175b89</SolidColorBrush>
         <SolidColorBrush x:Key="InputBackgroundColor">#3c3c3c</SolidColorBrush>
@@ -13,7 +13,11 @@
         <SolidColorBrush x:Key="SelectedHighlightColor">#062f4a</SolidColorBrush>
         
         <Style x:Key="SearchWindow" TargetType="{x:Type Window}" BasedOn="{StaticResource {x:Type Window}}">
-            <Setter Property="Background" Value="{StaticResource BackgroundColor}" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Opacity="0.5" Color="#252525" />
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <Style x:Key="SearchTextBox" TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">

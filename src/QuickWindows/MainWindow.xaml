@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:QuickWindows"
         mc:Ignorable="d"
-        Title="Quick Windows" Height="800" Width="800" WindowStartupLocation="CenterScreen"
+        Title="Quick Windows" Height="240" Width="800" WindowStartupLocation="CenterScreen"
         Topmost="{Binding Path=ReadyToSearch}" WindowStyle="None"
         AllowsTransparency="True"
         Style="{StaticResource SearchWindow}">
@@ -24,9 +24,10 @@
                  Text="{Binding Path=SearchTerms, UpdateSourceTrigger=PropertyChanged}" 
                  VerticalAlignment="Top" PreviewKeyDown="HandlePreviewKeyDown">
         </TextBox>
-        <ListView Margin="13,41,13,13.04" ItemsSource="{Binding Path=FilteredProcesses}" SelectedValue="{Binding Path=SelectedProcess}"
+        <ListView Margin="13,41,13,13" ItemsSource="{Binding Path=FilteredProcesses}" SelectedValue="{Binding Path=SelectedProcess}"
                   Background="{StaticResource BackgroundColor}"
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
                   PreviewKeyDown="HandlePreviewKeyDown"
                   MouseDoubleClick="HandleMouseDoubleClick">
 
@@ -40,7 +41,7 @@
                     </Style.Triggers>
                 </Style>
             </ListView.Resources>
-            
+
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
