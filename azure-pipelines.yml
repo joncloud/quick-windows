@@ -22,9 +22,10 @@ steps:
   inputs:
     includePreviewVersions: true
     packageType: sdk
-    version: 3.0.100-preview6-012264
+    version: 3.0.100-preview7-012821
 
 - task: DotNetCoreCLI@2
+  displayName: Publish $(runtimeIdentifier)
   inputs:
     command: custom
     custom: publish
@@ -33,11 +34,13 @@ steps:
     arguments: --configuration $(buildConfiguration) --runtime $(runtimeIdentifier) --self-contained true --output $(build.ArtifactStagingDirectory)
 
 - task: VSTest@2
+  displayName: Test
   inputs:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
 - task: PublishBuildArtifacts@1
+  displayName: Upload Artifacts
   inputs:
     PathtoPublish: '$(build.ArtifactStagingDirectory)'
     ArtifactName: 'QuickWindows-$(runtimeIdentifier)'
