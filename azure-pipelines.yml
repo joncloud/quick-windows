@@ -1,4 +1,3 @@
-# .NET Core
 trigger:
 - master
 
@@ -13,12 +12,15 @@ variables:
 
 steps:
 - task: NuGetToolInstaller@0
+  displayName: Install NuGet
 
 - task: NuGetCommand@2
+  displayName: Restore Packages
   inputs:
     restoreSolution: '$(solution)'
 
 - task: DotNetCoreInstaller@1
+  displayName: Install .NET Core 3.0
   inputs:
     includePreviewVersions: true
     packageType: sdk
