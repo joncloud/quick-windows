@@ -1,5 +1,5 @@
 # Quick Windows
-[![Build Status](https://dev.azure.com/joncloud/joncloud-github/_apis/build/status/joncloud.quick-windows?branchName=master)](https://dev.azure.com/joncloud/joncloud-github/_build/latest?definitionId=12&branchName=master)
+![.NET Core](https://github.com/joncloud/quick-windows/workflows/.NET%20Core/badge.svg)
 
 ## Description
 Quick process switching application for Windows
