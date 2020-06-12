@@ -1,0 +1,39 @@
+name: .NET Core
+
+on:
+  push:
+    branches: [ publish ]
+
+  pull_request:
+    branches: [ publish ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.x'
+
+    - name: Install dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+#    - name: Test
+#      run: dotnet test --configuration Release --no-build --no-restore --verbosity normal
+
+    - name: Publish
+      run: dotnet publish --configuration Release --no-build --no-restore --runtime win-x64 --self-contained true
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: 'QuickWindows-win-x64'
+        path: src/QuickWindows/bin/Debug/netcoreapp3.0/publish
