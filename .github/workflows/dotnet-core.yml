@@ -36,4 +36,4 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with:
         name: 'QuickWindows-win-x64'
-        path: src/QuickWindows/bin/Release/netcoreapp3.1/publish
+        path: src/QuickWindows/bin/Release/netcoreapp3.1/win-x64/publish
